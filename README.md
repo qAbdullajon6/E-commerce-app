@@ -15,4 +15,5 @@
 ## Ishga tushirish
 \```bash
 docker-compose up --build
+
 \```
