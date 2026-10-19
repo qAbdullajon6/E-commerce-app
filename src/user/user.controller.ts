@@ -6,10 +6,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Role } from '../auth/enums/role.enum.js';
 import { RolesGuard } from '../auth/guards/roles/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
+@ApiBearerAuth()
+@Controller('user')
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
@@ -25,6 +28,12 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiOperation({summary: 'ID orqali userni olish'})
+  @ApiParam({
+    name: 'id',
+    description: 'User id',
+    example: 1,
+  })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
